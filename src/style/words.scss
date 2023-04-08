@@ -1,0 +1,173 @@
+.words-wrapper {
+  display: flex;
+  font-size: 24px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  max-width: 1600px;
+  margin: 0 auto;
+  > * {
+    flex-basis: 448px;
+  }
+}
+
+.words__img {
+  width: 100px;
+  height: 100px;
+}
+.sound-icon {
+  position: absolute;
+  margin-left: 10px;
+}
+
+.pages {
+  margin: 20px 0;
+  .page,
+  .current-page {
+    font-size: 20px;
+    border: 1px solid lightcoral;
+    border-radius: 100%;
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+  .current-page {
+    border: 2px solid gray;
+    font-weight: 700;
+  }
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+.btn-difficult-con {
+  display: flex;
+  justify-content: center;
+}
+.btn-difficult {
+  margin-bottom: 10px;
+  background-color: #9b6ad6;
+  color: #fff;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.btn-difficult:hover {
+  transition: 0.3s;
+  background: rgba(233, 214, 255, 0.8235294118);
+  color: #9b6ad6;
+} 
+.btn-difficult-block {
+  display: none;
+}
+.cards-container {
+  display: flex;
+  font-size: 24px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  max-width: 1600px;
+  margin: 0 auto;
+  > * {
+    flex-basis: 448px;
+  }
+}
+.game-btn {
+  &__container {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+}
+.star {
+  fill: rgb(255, 255, 10);
+}
+.star-btn {
+  background-color: #fff;
+}
+.learn-true {
+  display: none;
+}
+.learn-false {
+  display: block;
+}
+.bg-true {
+  display: block;
+  background-color: #9b6ad6;
+    font-size: 1.5rem;
+    min-width: 130px;
+    height: 50px;
+    margin: 0;
+    padding: 5px;
+    transform: scale(1);
+    transition: all 0.5s ease 0s;
+    border-radius: 4px;
+    text-transform: uppercase;
+    color:#fff;
+    margin-left: 15px;
+}
+.bg-false {
+  display: none;
+}
+.learn-true-btn {
+  display: block;
+  background-color: #9b6ad6;
+    font-size: 1.5rem;
+    min-width: 130px;
+    height: 50px;
+    margin: 0;
+    padding: 5px;
+    transform: scale(1);
+    transition: all 0.5s ease 0s;
+    border-radius: 4px;
+    text-transform: uppercase;
+    color:#fff;
+    margin-left: 15px;
+}
+.learn-false-btn {
+  display: none;
+}
+.game-btn {
+  background-color: #9b6ad6;
+    font-size: 1.5rem;
+    min-width: 150px;
+    height: 50px;
+    margin: 0;
+    padding: 5px;
+    transform: scale(1);
+    transition: all 0.5s ease 0s;
+    border-radius: 4px;
+    text-transform: uppercase;
+    color:#fff;
+  display: flex;
+  justify-content: center;
+}
+.group-container {
+  display: flex;
+  flex-wrap: wrap;
+  cursor: pointer;
+  justify-content: center;
+  gap: 10px;
+}
+.group {
+  border: 1.2px solid #9b6ad6;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 10px;
+}
+.current-group {
+  background-color: #9b6ad6;
+  color: #fff;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 10px;
+}
+.bg-card-color {
+  background-color: #ba8df1bd;
+}
+.bg-card {
+  background-color: #fff;
+}

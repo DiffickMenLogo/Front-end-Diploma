@@ -1,0 +1,60 @@
+.profile{
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.profile__top{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    align-items: center;
+    justify-items: center;
+    margin: 65px 0;
+}
+
+.profile-item{
+    background-color: #9040D5;
+}
+
+.settings-btn__container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.settings{
+    h2{
+        margin-top: 15px;
+        font-size: 24px;
+        line-height: 28px;
+        color: #FFFFFF;
+        margin-bottom: 20px;
+    }
+    p{
+        font-size: 16px;
+        line-height: 19px;
+        color: #FFFFFF;
+        margin-bottom: 20px;
+        margin: auto 0;
+    }
+}
+.settings-btn__container__slide{
+    width: 80%;
+    margin: 0 auto;
+}
+.change-name{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.current-name{
+    margin-top: 30px !important;
+}
+.settings-accept__btn{
+    width: 300px;
+    height: 50px;
+    margin-top: 60px !important;
+    p{
+        font-size: 16px;
+        line-height: 19px;
+        color: #FFFFFF;
+    }
+}

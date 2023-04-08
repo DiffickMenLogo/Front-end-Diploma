@@ -1,0 +1,20 @@
+.progress-bar {
+  &__container {
+    display: flex;
+    width: 80%;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+  &__number {
+    font-size: 2rem;
+  }
+  &__linear-progress {
+    width: 100%;
+    margin-top: -20px;
+  }
+  &__percent {
+    font-size: 2rem;
+    color: #fc622e;
+  }
+}

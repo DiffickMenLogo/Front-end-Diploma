@@ -1,0 +1,33 @@
+.about{
+    max-width: 1600px;
+    margin: 0 auto;
+
+    h1, h2, h3, h4, h5, h6{
+        font-family: 'Roboto', sans-serif;
+        font-weight: 300;
+        color: #000;
+    }
+    h1{
+        font-size: 4rem;
+        margin: 1rem;
+    }
+    h3{
+        font-size: 2rem;
+        margin: 1rem;
+    }
+    p{
+        font-size: 1rem;
+        margin: 1rem;
+    }
+}
+.about__cards{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem;
+}
+.about__card{
+    flex: 1 0 50%;
+    margin: 2rem 10rem;
+}
