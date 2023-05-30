@@ -1,25 +1,34 @@
 import { fetchWords } from './ActionCreaters'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { IWordState } from '../../models/IWord'
+import { IUserWordsInitial, IWord, IWordState } from '../../models/IWord'
 
-const initialState: IWordState = {
+const initialState: IUserWordsInitial = {
   words: [],
-  isLoading: false,
-  error: '',
   page: 0,
   group: 0,
   perPage: 29,
-  totalCount: 20
 }
 
-export const wordSliceUser = createSlice({
+export const userWordsSlice = createSlice({
   name: 'allWordsUser',
   initialState,
   reducers: {
-    getUserWords: (state: IWordState, action: PayloadAction<IWordState>) => {
-      state.isLoading = false;
+    addWord: (state, action: PayloadAction<IWord>) => {
+      state.words.push(action.payload)
+    },
+    addWords: (state, action: PayloadAction<IWord[]>) => {
+      state.words.push(...action.payload)
+    },
+    setWords: (state, action: PayloadAction<IWord[]>) => {
+      state.words = action.payload
+    },
+    deleteUserWords: (state) => {
+      state.words = []
+      state.page = initialState.page
+      state.group = initialState.group
+      state.perPage = initialState.perPage
     },
   },
 })
 
-export default wordSliceUser.reducer
+export default userWordsSlice.reducer

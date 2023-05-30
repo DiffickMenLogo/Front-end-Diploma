@@ -2,11 +2,20 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #360570;
+  background-color: #25448b;
   color: #fff;
   gap: 93px;
   padding: 18px;
-  font-family: 'Inter', sans-serif;
+}
+.header__logo {
+  h1 {
+    font-family: 'Comic Neue', cursive;
+    letter-spacing: 0.06em;
+    font-weight: bold;
+    span {
+      color: #0596fd;
+    }
+  }
 }
 .header-nav_list {
   display: flex;
@@ -16,12 +25,15 @@
 }
 .header-nav_list li {
   padding-left: 16px;
+  font-family: 'Comic Neue', cursive;
+  font-weight: normal;
+  letter-spacing: 0.03em;
 }
 
 .header-nav_list li a {
   color: #fff;
   &:hover {
-    color: #9b6ad6;
+    color: #0091b5;
   }
 }
 
@@ -30,15 +42,18 @@
   margin-right: 37px;
 }
 .btn {
-  background-color: #9b6ad6;
-  font-size: 2.6rem;
-  width: 180px;
-  height: 55px;
+  background-color: #006ab5;
+  font-size: 2rem;
+  width: 120px;
+  height: 50px;
   margin: 0;
   padding: 0;
+  font-family: 'Comic Neue', cursive;
+  border: solid 3px #006ab5;
+  border-radius: 10px;
   &:hover {
     transition: 0.3s;
-    background: rgba(233, 214, 255, 0.8235294118);
+    background: rgba(3, 0, 206, 0.824);
   }
   & a {
     display: flex;
@@ -50,7 +65,7 @@
   }
   & a:hover {
     transition: 0.3s;
-    color: #9b6ad6;
+    color: #f8f8f8;
   }
 }
 

@@ -1,18 +1,45 @@
-import { Button } from '@mui/material'
-import { useState } from 'react'
+import { Button, CircularProgress } from '@mui/material'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { StatsGraph } from './StatsGraph'
 import { StatsNum } from './StatsNum'
 import '../../style/stats/Statistics.scss'
 import { userSlice } from '../../store/reducers/UserSlice'
-import { useAppSelector } from '../../hooks/redux'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { IUserStatistics } from '../../models/IUser'
+import { statsAPI } from '../../services/PostService'
+import { statisticsSlice } from '../../store/reducers/StatisticsSlice'
 
 export function Statistics() {
-  const [statsNow, setStatsNow] = useState('num')
-  const userStatistics = useAppSelector((state) => state.userSlice.statistics) as IUserStatistics
+  const user = useAppSelector((state) => state.userSlice)
+  const skip = useAppSelector((state) => state.authSlice.skip)
 
-  return (
+  const dispatch = useAppDispatch()
+  const setGames = statisticsSlice.actions.setGames
+
+  const { data, isLoading } = statsAPI.useGetStatsQuery(user.id, {
+    skip,
+  })
+
+  const [render, setRender] = useState<boolean>(true)
+
+  useEffect(() => {
+    if (data) {
+      dispatch(setGames(data))
+      console.log(data)
+      setRender(false)
+    }
+  }, [data])
+
+  const [statsNow, setStatsNow] = useState('num')
+
+  return isLoading && render ? (
+    <CircularProgress
+      sx={{
+        margin: '0 auto',
+      }}
+    />
+  ) : (
     <div className='statistics'>
       <h2>Статистика</h2>
       <div className='statistics__change'>
@@ -20,9 +47,9 @@ export function Statistics() {
           sx={{
             width: 200,
             fontSize: 20,
-            backgroundColor: '#560EAD',
+            backgroundColor: '#1177d4',
             '&:hover': {
-              backgroundColor: '#8643D6',
+              backgroundColor: '#77b0d8',
             },
           }}
           variant='contained'
@@ -35,9 +62,9 @@ export function Statistics() {
           sx={{
             width: 200,
             fontSize: 20,
-            backgroundColor: '#560EAD',
+            backgroundColor: '#1177d4',
             '&:hover': {
-              backgroundColor: '#8643D6',
+              backgroundColor: '#77b0d8',
             },
           }}
           variant='contained'
@@ -47,7 +74,7 @@ export function Statistics() {
           Графики
         </Button>
       </div>
-      {statsNow === 'num' ? <StatsNum userStatistics={userStatistics} /> : <StatsGraph userStatistics={userStatistics} />}
+      {statsNow === 'num' ? <StatsNum /> : <StatsGraph />}
     </div>
   )
 }

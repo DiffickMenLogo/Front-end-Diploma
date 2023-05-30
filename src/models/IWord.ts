@@ -1,5 +1,5 @@
 export interface IWord {
-  _id?: string
+  id?: string
   group: number
   page: number
   word: string
@@ -36,11 +36,11 @@ export interface IUserWord {
     textExampleTranslate: string
     textMeaningTranslate: string
     wordTranslate: string
-  }, 
-  difficult: boolean,
-	deleted: boolean,
-	correct: number,
-	fail: number,
+  }
+  difficult: boolean
+  deleted: boolean
+  correct: number
+  fail: number
 }
 
 export interface IWordState {
@@ -51,6 +51,13 @@ export interface IWordState {
   group: number
   perPage: number
   totalCount: number
+}
+
+export interface IUserWordsInitial {
+  words: IWord[]
+  page: number
+  group: number
+  perPage: number
 }
 
 export interface IWordGroupState {
@@ -84,4 +91,11 @@ export interface IQeury {
   group: number
   perPage: number
   totalCount: number
+}
+
+export interface IUpdateUserWord {
+  id: string
+  userId: string
+  correct: number
+  fail: number
 }

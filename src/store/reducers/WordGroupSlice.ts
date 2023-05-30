@@ -52,10 +52,6 @@ export const levelSlice = createSlice({
       state.isLoading = false
       state.error = action.payload
     },
-    // [postStats.fulfilled.type]: (state, action) => {
-    //   state.statistics = action.payload
-    //   state.userData = action.payload
-    // },
   },
 })
 

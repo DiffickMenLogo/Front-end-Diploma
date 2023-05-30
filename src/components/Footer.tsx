@@ -1,7 +1,7 @@
 import React from 'react'
 import '../style/Footer.scss'
 import { ReactComponent as Git } from '../assets/github-icon.svg'
-import { ReactComponent as RSlogo } from '../assets/rs_school_js.svg'
+import logo from '../assets/logo_BrSTU.png'
 
 export default function Footer() {
   return (
@@ -9,16 +9,21 @@ export default function Footer() {
       <div className='wrapper'>
         <div className='footer__container'>
           <div className='footer-year'>
-            <p>© 2022 RSLang</p>
+            <p>© 2023 BSTULang</p>
           </div>
           <div className='footer-gitHub'>
             <Git fill='#fff' />
-            <a href='https://github.com/yuliaN145'>YuliaN145</a>
-            <a href='https://github.com/gremlin654'>gremlin654</a>
-            <a href='https://github.com/diffickmenlogo'>diffickmenlogo</a>
+            <a href='https://github.com/diffickmenlogo'>DiffickMenLogo</a>
           </div>
-          <a href='https://rs.school/js/'>
-            <RSlogo width='100px' fill='#fff' />
+          <a href='https://www.bstu.by'>
+            <img
+              src={logo}
+              alt='Your Logo'
+              style={{
+                borderRadius: '10px',
+                width: '100px',
+              }}
+            />
           </a>
         </div>
       </div>

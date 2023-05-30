@@ -3,13 +3,12 @@ import axios from 'axios'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { IWord } from '../../models/IWord'
 import { useAppSelector } from '../../hooks/redux'
-import { IFullUser } from '../../models/IUser'
 import { userSlice } from '../../store/reducers/UserSlice'
 import { useDispatch } from 'react-redux'
 
 export const fetchWords = createAsyncThunk('allWords/fetchWords', async (_, thunkAPI) => {
   try {
-    const response = await axios.get<IWord[]>('https://rs-lang-back-diffickmenlogo.herokuapp.com/')
+    const response = await axios.get<IWord[]>('https://diplomabackend-production-952d.up.railway.app/')
     return response.data
   } catch (error) {
     return thunkAPI.rejectWithValue('Error')
@@ -21,7 +20,7 @@ export const setLevelAndPage = createAsyncThunk(
   async (query: { group: number | null; page: number }, { rejectWithValue }) => {
     try {
       const { page = 0, group = 0 } = query
-      const response = await axios.get<IWord[]>(`https://rs-lang-back-diffickmenlogo.herokuapp.com/allWords?group=${group}&page=${page}`)
+      const response = await axios.get<IWord[]>(`https://diplomabackend-production-952d.up.railway.app/words?group=${group}&page=${page}`)
       console.log(response.data)
       return response.data
     } catch (error) {

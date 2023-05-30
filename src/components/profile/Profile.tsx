@@ -1,164 +1,91 @@
-import { Avatar, Box, Button, Container, Slider, Switch, TextField } from '@mui/material'
+import { Alert, Avatar, Box, Button, CircularProgress, Container, Slider, Snackbar, Switch, TextField } from '@mui/material'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { IFullUser, ISettings, ISettingsValue, IUser } from '../../models/IUser'
+import { ISettings, ISettingsValue, IUser } from '../../models/IUser'
+import { settingsAPI, userAPI } from '../../services/PostService'
 import { userSlice } from '../../store/reducers/UserSlice'
 import '../../style/profile/Profile.scss'
+import { settingsSlice } from '../../store/reducers/SettingsSlice'
+import { statisticsSlice } from '../../store/reducers/StatisticsSlice'
+import { authSlice } from '../../store/reducers/IsLoginSlice'
+import { useNavigate } from 'react-router-dom'
+import { userWordsSlice } from '../../store/reducers/UserWords'
 
 export function Profile() {
-  const user = useAppSelector((state) => state.userSlice) as IFullUser
-  const setSettings = userSlice.actions.setSettings
+  const navigate = useNavigate()
+
+  const user = useAppSelector((state) => state.userSlice) as IUser
+  const settings = useAppSelector((state) => state.settingsSlice) as ISettings
+
+  const [updateSettings] = settingsAPI.useUpdateSettingsMutation()
+  const [changeName] = userAPI.useChangeNameMutation()
+
+  const setSettings = settingsSlice.actions.setSettings
   const setName = userSlice.actions.setName
-  const setUser = userSlice.actions.setUser
-  const setAvatar = userSlice.actions.setAvatar
+  const deleteUser = userSlice.actions.deleteUser
+  const deleteStats = statisticsSlice.actions.deleteStats
+  const deleteUserWOrds = userWordsSlice.actions.deleteUserWords
+  const deleteSettings = settingsSlice.actions.deleteSettings
+  const deleteToken = authSlice.actions.clearToken
+  const clearSkip = authSlice.actions.clearSkip
   const dispatch = useAppDispatch()
-  const [difficultWordChange, setDifficultWordChange] = useState<boolean>(user.userId !== '' ? user.settings.difficultWord : true)
-  const [deletedWordChange, setDeletedWordChange] = useState<boolean>(user.userId !== '' ? user.settings.deleteWord : true)
-  const [translateWordChange, setTranslateWordChange] = useState<boolean>(user.userId !== '' ? user.settings.translateWord : true)
-  const [translateSentencesChange, setTranslateSentencesChange] = useState<boolean>(user.userId !== '' ? user.settings.translateSentences : true)
-  const [musicVolumeChange, setMusicVolumeChange] = useState<number | number[]>(user.userId !== '' ? user.settings.musicVolume : 0)
-  const [soundVolumeChange, setSoundVolumeChange] = useState<number | number[]>(user.userId !== '' ? user.settings.soundVolume : 0)
-  const [wordVolumeChange, setWordVolumeChange] = useState<number | number[]>(user.userId !== '' ? user.settings.wordVolume : 50)
-  const [nameChange, setNameChange] = useState<string>(user.userId !== '' ? user.userName : '')
-  const [feedbackMessage, setFeedbackMessage] = useState<string>('')
-  const [feedbackEmail, setFeedbackEmail] = useState<string>('')
 
-  // const [themeChange, setThemeChange] = useState(user.settings.theme);
+  const [difficultWordChange, setDifficultWordChange] = useState<boolean>(settings.userId !== '' ? settings.difficultWord : true)
+  const [deletedWordChange, setDeletedWordChange] = useState<boolean>(settings.userId !== '' ? settings.deleteWord : true)
+  const [translateWordChange, setTranslateWordChange] = useState<boolean>(settings.userId !== '' ? settings.translateWord : true)
+  const [translateSentencesChange, setTranslateSentencesChange] = useState<boolean>(settings.userId !== '' ? settings.translateSentences : true)
+  const [musicVolumeChange, setMusicVolumeChange] = useState<number | number[]>(settings.userId !== '' ? settings.musicVolume : 0)
+  const [soundVolumeChange, setSoundVolumeChange] = useState<number | number[]>(settings.userId !== '' ? settings.soundVolume : 0)
+  const [wordVolumeChange, setWordVolumeChange] = useState<number | number[]>(settings.userId !== '' ? settings.wordVolume : 50)
+  const [nameChange, setNameChange] = useState<string>(user.id !== '' ? user.name : '')
+  const [showAlert, setShowAlert] = useState<boolean>(false)
+  const [alertText, setAlertText] = useState<string>('')
 
-  useEffect(() => {
-    localStorage.setItem('user', JSON.stringify({ data: user }))
-    console.log('add to local')
-  }, [user])
-
-  const postSetting = useCallback(async (name: string, value: string | boolean | number | number[]) => {
-    try {
-      const res = await fetch('https://rs-lang-back-diffickmenlogo.herokuapp.com/settings', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify({ user, name, value }),
-      })
-      const data = await res.json()
-    } catch (error) {
-      console.log(error)
-    }
-  }, [])
-
-  const uploadAvatar = useCallback(async (file: File, token: string) => {
-    const formData = new FormData()
-    formData.append('avatar', file)
-    try {
-      const res = await fetch('https://rs-lang-back-diffickmenlogo.herokuapp.com/upload', {
-        method: 'POST',
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      const json = await res.json()
-      console.log(json)
-      return json
-    } catch (error) {
-      return error
-    }
-  }, [])
-
-  const uploadName = useCallback(async (name: string, token: string) => {
-    try {
-      const res = await fetch('https://rs-lang-back-diffickmenlogo.herokuapp.com/name', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ name }),
-      })
-      const json = await res.json()
-      alert(json.message)
-    } catch (error) {
-      console.log(error)
-    }
-  }, [])
-
-  const postFeedback = useCallback(async (message: string, mail: string) => {
-    try {
-      const res = await fetch('https://rs-lang-back-diffickmenlogo.herokuapp.com/feedback', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ mail, message }),
-      })
-      const json = await res.json()
-      alert(json.message)
-    } catch (error) {
-      console.log(error)
-    }
-  }, [])
+  const handleAlertClose = () => {
+    setShowAlert(false)
+  }
 
   const handleChangeName = useCallback(() => {
-    if (user.token !== '') {
-      if (nameChange !== user.userName) {
-        uploadName(nameChange, user.token)
+    changeName({ name: nameChange, id: user.id })
+      .unwrap()
+      .then(() => {
         dispatch(setName(nameChange))
-      }
-    } else {
-      alert('Вы не авторизованы')
-    }
+        const newUser = JSON.parse(localStorage.getItem('user') || '') as IUser
+        newUser.name = nameChange
+        localStorage.setItem('user', JSON.stringify(newUser))
+        setAlertText('Вы сменили имя!')
+        setShowAlert(true)
+      })
+      .catch(() => {
+        setAlertText('Не удалось сменить имя. Попробуйте ещё раз')
+        setShowAlert(true)
+      })
   }, [nameChange])
 
-  const changeAvatar = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      if (user.token === '') {
-        alert('Для загрузки фото необходимо авторизоваться.')
-      }
-      if (!event.target.files[0]) {
-        alert('Выберите файл')
-      }
-      if (!['image/jpeg', 'image/png', 'image/gif', 'image/jpg'].includes(event.target.files[0].type)) {
-        alert('Разрешены только изображения')
-      }
-      if (event.target.files[0].size > 2 * 1024 * 1024) {
-        alert('Аватарка должна быть менее 2МБ')
-      }
-      uploadAvatar(event.target.files[0], user.token)
-        .then((res) => {
-          dispatch(setAvatar(res.avatarURL))
-          alert(res.message)
-        })
-        .catch((err) => {
-          alert('Выберите другой файл')
-        })
+  const handleSendSettings = useCallback(async () => {
+    const newSettings: ISettings = {
+      userId: user.id,
+      difficultWord: difficultWordChange,
+      deleteWord: deletedWordChange,
+      translateWord: translateWordChange,
+      translateSentences: translateSentencesChange,
+      musicVolume: musicVolumeChange as number,
+      soundVolume: soundVolumeChange as number,
+      wordVolume: wordVolumeChange as number,
+      theme: 'dark',
     }
-  }, [])
-
-  const handleSendSettings = useCallback(() => {
-    if (user.token === '') {
-      alert('Что бы сохранить настройки, войдите в аккаунт или зарегистрируйтесь')
-    } else {
-      const newSettings: ISettings = {
-        settings: {
-          difficultWord: difficultWordChange,
-          deleteWord: deletedWordChange,
-          translateWord: translateWordChange,
-          translateSentences: translateSentencesChange,
-          musicVolume: musicVolumeChange,
-          soundVolume: soundVolumeChange,
-          wordVolume: wordVolumeChange,
-          theme: 'dark',
-        },
-      }
-      Object.entries(newSettings.settings).forEach(([key, value]) => {
-        postSetting(key, value)
+    await updateSettings(newSettings)
+      .unwrap()
+      .then(() => {
+        dispatch(setSettings(newSettings))
+        localStorage.setItem('settings', JSON.stringify(newSettings))
+        setAlertText('Настройки сохранены')
+        setShowAlert(true)
       })
-      dispatch(setSettings(newSettings))
-      alert('Настройки сохранены')
-    }
+      .catch((e) => {
+        setAlertText('Что бы сохранить настройки, войдите в аккаунт или зарегистрируйтесь')
+        setShowAlert(true)
+      })
   }, [
     difficultWordChange,
     deletedWordChange,
@@ -172,72 +99,34 @@ export function Profile() {
   ])
 
   const handleExit = useCallback(() => {
-    localStorage.removeItem('user')
-    dispatch(
-      setUser({
-        token: '',
-        userId: '',
-        userName: '',
-        userEmail: '',
-        avatarURL: '',
-        settings: {
-          soundVolume: 0,
-          musicVolume: 0,
-          wordVolume: 50,
-          difficultWord: true,
-          deleteWord: true,
-          translateWord: true,
-          translateSentences: true,
-          theme: 'dark',
-        },
-        userWords: [],
-        statistics: {
-          todayDate: '',
-          learnedWordsTotal: 0,
-          learnedWordsToday: 0,
-          learnedWordsPerDate: [],
-          percentToday: '0%',
-          games: [
-            {
-              name: 'Саванна',
-              longestSeries: 0,
-              correctPercent: 0,
-              wordsCount: 0,
-            },
-            {
-              name: 'Составление',
-              longestSeries: 0,
-              correctPercent: 0,
-              wordsCount: 0,
-            },
-            {
-              name: 'Спринт',
-              longestSeries: 0,
-              correctPercent: 0,
-              wordsCount: 0,
-            },
-            {
-              name: 'Аудиовызов',
-              longestSeries: 0,
-              correctPercent: 0,
-              wordsCount: 0,
-            },
-          ],
-        },
-        message: '',
-      }),
-    )
-    setSoundVolumeChange(0)
-    setMusicVolumeChange(0)
-    setWordVolumeChange(50)
-    setDifficultWordChange(true)
-    setDeletedWordChange(true)
-    setTranslateWordChange(true)
-    setTranslateSentencesChange(true)
+    localStorage.clear()
+    dispatch(deleteToken())
+    dispatch(deleteUser())
+    dispatch(deleteSettings())
+    dispatch(deleteStats())
+    dispatch(deleteUserWOrds())
+    dispatch(clearSkip())
+    console.log('exit')
+    navigate('/signin')
   }, [])
 
   return (
     <div className='profile'>
+      <Snackbar open={showAlert} autoHideDuration={5000} onClose={handleAlertClose}>
+        <Alert
+          onClose={handleAlertClose}
+          sx={{
+            backgroundColor: (theme) => theme.palette.success.main,
+            color: (theme) => theme.palette.success.contrastText,
+            fontSize: '1.5rem',
+            fontWeight: 'bold',
+            padding: (theme) => theme.spacing(2),
+          }}
+          severity='success'
+        >
+          {alertText}
+        </Alert>
+      </Snackbar>
       <div className='profile__top'>
         <Box
           className='profile-item'
@@ -249,17 +138,13 @@ export function Profile() {
           <div className='settings'>
             <h2>Отображение кнопок</h2>
             <div className='settings-btn__container'>
-              <p>Сложные слова</p>
+              <p>Изученные слова</p>
               <Switch
                 onClick={() => {
                   setDifficultWordChange(!difficultWordChange)
                 }}
                 checked={difficultWordChange}
               />
-            </div>
-            <div className='settings-btn__container'>
-              <p>Удалить Слово</p>
-              <Switch onClick={() => setDeletedWordChange(!deletedWordChange)} checked={deletedWordChange} />
             </div>
             <h2>Перевод</h2>
             <div className='settings-btn__container'>
@@ -285,7 +170,7 @@ export function Profile() {
               <Slider
                 onChange={(e, value) => setMusicVolumeChange(value)}
                 aria-label='Temperature'
-                defaultValue={user.settings.musicVolume || 0}
+                defaultValue={settings.musicVolume || 0}
                 value={musicVolumeChange}
                 valueLabelDisplay='on'
                 step={10}
@@ -299,8 +184,7 @@ export function Profile() {
               <Slider
                 onChange={(e, value) => setSoundVolumeChange(value)}
                 aria-label='Temperature'
-                defaultValue={user.settings.soundVolume || 0}
-                // getAriaValueText={valuetext}
+                defaultValue={settings.soundVolume || 0}
                 valueLabelDisplay='on'
                 value={soundVolumeChange}
                 step={10}
@@ -314,8 +198,7 @@ export function Profile() {
               <Slider
                 onChange={(e, value) => setWordVolumeChange(value)}
                 aria-label='Temperature'
-                defaultValue={user.settings.wordVolume || 50}
-                // getAriaValueText={valuetext}
+                defaultValue={settings.wordVolume || 50}
                 value={wordVolumeChange}
                 valueLabelDisplay='on'
                 step={10}
@@ -343,58 +226,46 @@ export function Profile() {
                 margin: '20px auto',
               }}
             />
-            <Button variant='contained' component='label'>
-              Сменить аватар
-              <input accept='.jpg, .jpeg, .png, .gif' type='file' onChange={(e) => changeAvatar(e)} hidden />
-            </Button>
             <div className='change-name'>
               <TextField id='outlined-basic' label='Outlined' variant='outlined' onChange={(e) => setNameChange(e.currentTarget.value)} />
             </div>
-            <Button variant='contained' component='label' onClick={() => handleChangeName()}>
+            <Button
+              sx={{
+                fontFamily: 'Comic Neue, cursive',
+              }}
+              variant='contained'
+              component='label'
+              onClick={() => handleChangeName()}
+            >
               Сменить никнейм
             </Button>
             <p className='current-name'>Текущий никнейм:</p>
-            <p>{user.userName}</p>
-            <Button variant='contained' component='label' onClick={() => handleExit()}>
+            <p>{user.name}</p>
+            <Button
+              sx={{
+                fontFamily: 'Comic Neue, cursive',
+              }}
+              variant='contained'
+              component='label'
+              onClick={() => handleExit()}
+            >
               Выход
             </Button>
           </div>
         </Box>
-        <Box
-          className='profile-item'
-          sx={{
-            width: 300,
-            height: 300,
-          }}
-        >
-          <div className='settings'>
-            <h2>Связь с нами</h2>
-            <p>Ваш email</p>
-            <TextField
-              id='filled-basic'
-              label='Email'
-              variant='filled'
-              margin='normal'
-              color='secondary'
-              onChange={(e) => setFeedbackEmail(e.target.value)}
-            />
-            <p>Ваше сообщение</p>
-            <TextField
-              id='filled-basic'
-              fullWidth
-              label='Ваше сообщение'
-              margin='normal'
-              color='secondary'
-              onChange={(e) => setFeedbackMessage(e.currentTarget.value)}
-            />
-          </div>
-          <Button variant='contained' component='label' onClick={() => postFeedback(feedbackMessage, feedbackEmail)}>
-            Отправить
-          </Button>
-        </Box>
       </div>
-      <Button className='settings-accept__btn' variant='contained' component='label' onClick={() => handleSendSettings()}>
-        <p>Преминить настройки</p>
+      <Button
+        className='settings-accept__btn'
+        variant='contained'
+        component='label'
+        sx={{
+          fontFamily: 'Comic Neue, cursive',
+          letterSpacing: '0.06em',
+          fontWeigth: 'bold',
+        }}
+        onClick={() => handleSendSettings()}
+      >
+        <p>Применить настройки</p>
       </Button>
     </div>
   )

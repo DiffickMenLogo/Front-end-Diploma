@@ -14,7 +14,7 @@ import FullscreenIcon from '@mui/icons-material/Fullscreen'
 import { RoundTimer } from './RoundTimer'
 import { levelSlice } from '../../store/reducers/WordGroupSlice'
 import { GameResult } from './GameResult'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import VolumeUpIcon from '@mui/icons-material/VolumeUp'
 import VolumeOffIcon from '@mui/icons-material/VolumeOff'
 
@@ -36,7 +36,9 @@ const keyCode = {
 const initialObject = {} as IWord
 
 export const Sprint = () => {
-  const { soundVolume, wordVolume, musicVolume } = useAppSelector((state) => state.userSlice.settings)
+  const navigate = useNavigate()
+
+  const { soundVolume, wordVolume, musicVolume } = useAppSelector((state) => state.settingsSlice)
   const { words, isLoading } = useAppSelector((state) => state.levelSlice)
   const { setLevel, setActiveWords } = levelSlice.actions
   const dispatch = useAppDispatch()
@@ -70,6 +72,14 @@ export const Sprint = () => {
   const playWords = useCallback(() => {
     setWordsArray(words)
   }, [words])
+
+  useEffect(() => {
+    if (!isLoading) {
+      if (wordsArray.length === 0) {
+        navigate('/games')
+      }
+    }
+  }, [wordsArray])
 
   useEffect(() => {
     playWords()
@@ -124,8 +134,6 @@ export const Sprint = () => {
     },
     [audioFail, audioSuccess, currentRussianWord, currentSeries, currentWord, endGame],
   )
-
-  console.log(allSeries)
   useEffect(() => {
     if (wordsArray.length && currentNumber < wordsArray.length) {
       setCurrentWord(wordsArray[currentNumber])

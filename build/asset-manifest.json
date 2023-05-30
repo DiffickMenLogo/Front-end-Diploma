@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "./static/css/main.4033a216.css",
+    "main.js": "./static/js/main.d0cd65be.js",
+    "static/media/main.jpg": "./static/media/main.3aaa02a2043cef8bb936.jpg",
+    "static/media/fon.mp3": "./static/media/fon.e49cafba795f4b27d6f4.mp3",
+    "static/media/diffick.jpg": "./static/media/diffick.1818480220d1d72bc98c.jpg",
+    "static/media/success.mp3": "./static/media/success.ab6b7b7ffdaa59928ae3.mp3",
+    "static/media/logo_BrSTU.png": "./static/media/logo_BrSTU.3b579308e97e33de69f9.png",
+    "static/media/audioChalenge.jpg": "./static/media/audioChalenge.9da27686d5941faa94c8.jpg",
+    "static/media/fail.mp3": "./static/media/fail.a062598eb89338a8632b.mp3",
+    "static/media/unti-icon.svg": "./static/media/unti-icon.c7a46a728030521365a04f540c8dafe1.svg",
+    "static/media/github-icon.svg": "./static/media/github-icon.ab3858f09aa510a55355393f94caa018.svg",
+    "index.html": "./index.html",
+    "static/media/iconmonstr-sound-thin.svg": "./static/media/iconmonstr-sound-thin.8dbe3e340e4f16ad5bf650a4e41f45b5.svg",
+    "static/media/game-icon.svg": "./static/media/game-icon.b61eca36386ef6e6cd09edcfd3b49251.svg",
+    "static/media/dictionary-icon.svg": "./static/media/dictionary-icon.f934b7833e0e23063ba1d448336c24a4.svg",
+    "static/media/results-icon.svg": "./static/media/results-icon.50e8f92a04418c26f88384dfcc9fd03a.svg",
+    "main.4033a216.css.map": "./static/css/main.4033a216.css.map",
+    "main.d0cd65be.js.map": "./static/js/main.d0cd65be.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4033a216.css",
+    "static/js/main.d0cd65be.js"
+  ]
+}

@@ -5,15 +5,15 @@
   h3 {
     font-size: 2.5em;
     margin: 2% 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Comic Neue', cursive;
     letter-spacing: 0.06em;
     font-weight: 700;
-    color: #360570;
+    color: #25448b;
   }
 }
 .statistics-content__table {
-  background-color: #560ead;
-  color: white;
+  background-color: #ebf3fa;
+  color: #47629d;
 }
 
 .statistics-content__table-item {
@@ -27,15 +27,15 @@
   .statistics-content__table-item-title {
     font-size: 1.5em;
     margin: 1em 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Comic Neue', cursive;
     letter-spacing: 0.06em;
     font-weight: 700;
     width: 20%;
   }
 }
 .statistics-content__table-down {
-  background-color: #560ead;
-  color: white;
+  background-color: #ebf3fa;
+  color: #47629d;
 }
 .statistics-content__table-down-item {
   display: flex;
@@ -48,7 +48,7 @@
   .statistics-content__table-down-item-title {
     font-size: 1.5em;
     margin: 1em 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Comic Neue', cursive;
     letter-spacing: 0.06em;
     font-weight: 700;
     width: 35%;

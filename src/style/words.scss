@@ -44,19 +44,23 @@
 .btn-difficult-con {
   display: flex;
   justify-content: center;
+  a {
+    border: #cb7f46 solid 2px;
+    border-radius: 10px;
+  }
 }
 .btn-difficult {
   margin-bottom: 10px;
-  background-color: #9b6ad6;
+  background-color: #cb7f46;
   color: #fff;
   padding-left: 10px;
   padding-right: 10px;
 }
 .btn-difficult:hover {
   transition: 0.3s;
-  background: rgba(233, 214, 255, 0.8235294118);
-  color: #9b6ad6;
-} 
+  background: rgba(255, 176, 30, 0.824);
+  color: white;
+}
 .btn-difficult-block {
   display: none;
 }
@@ -96,52 +100,53 @@
 }
 .bg-true {
   display: block;
-  background-color: #9b6ad6;
-    font-size: 1.5rem;
-    min-width: 130px;
-    height: 50px;
-    margin: 0;
-    padding: 5px;
-    transform: scale(1);
-    transition: all 0.5s ease 0s;
-    border-radius: 4px;
-    text-transform: uppercase;
-    color:#fff;
-    margin-left: 15px;
+  background-color: #cb7f46;
+  font-size: 1.5rem;
+  min-width: 130px;
+  height: 50px;
+  margin: 0;
+  padding: 5px;
+  transform: scale(1);
+  transition: all 0.5s ease 0s;
+  border-radius: 4px;
+  text-transform: uppercase;
+  color: #fff;
+  &:hover {
+    background-color: #975f34;
+  }
 }
 .bg-false {
   display: none;
 }
 .learn-true-btn {
   display: block;
-  background-color: #9b6ad6;
-    font-size: 1.5rem;
-    min-width: 130px;
-    height: 50px;
-    margin: 0;
-    padding: 5px;
-    transform: scale(1);
-    transition: all 0.5s ease 0s;
-    border-radius: 4px;
-    text-transform: uppercase;
-    color:#fff;
-    margin-left: 15px;
+  background-color: #cb7f46;
+  font-size: 1.5rem;
+  min-width: 130px;
+  height: 50px;
+  margin: 0;
+  padding: 5px;
+  transform: scale(1);
+  transition: all 0.5s ease 0s;
+  border-radius: 4px;
+  text-transform: uppercase;
+  color: #fff;
 }
 .learn-false-btn {
   display: none;
 }
 .game-btn {
-  background-color: #9b6ad6;
-    font-size: 1.5rem;
-    min-width: 150px;
-    height: 50px;
-    margin: 0;
-    padding: 5px;
-    transform: scale(1);
-    transition: all 0.5s ease 0s;
-    border-radius: 4px;
-    text-transform: uppercase;
-    color:#fff;
+  background-color: #cb7f46 !important;
+  font-size: 1.5rem;
+  min-width: 150px;
+  height: 50px;
+  margin: 0;
+  padding: 5px;
+  transform: scale(1);
+  transition: all 0.5s ease 0s;
+  border-radius: 4px;
+  text-transform: uppercase;
+  color: #fff;
   display: flex;
   justify-content: center;
 }
@@ -153,20 +158,20 @@
   gap: 10px;
 }
 .group {
-  border: 1.2px solid #9b6ad6;
+  border: 1.2px solid #cb7f46;
   padding-left: 10px;
   padding-right: 10px;
   margin-bottom: 10px;
 }
 .current-group {
-  background-color: #9b6ad6;
+  background-color: #cb7f46;
   color: #fff;
   padding-left: 10px;
   padding-right: 10px;
   margin-bottom: 10px;
 }
 .bg-card-color {
-  background-color: #ba8df1bd;
+  background-color: #cb7f46;
 }
 .bg-card {
   background-color: #fff;

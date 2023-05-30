@@ -26,7 +26,7 @@ const keyCode = {
 }
 
 export const AudioChallenge = () => {
-  const { soundVolume, wordVolume } = useAppSelector((state) => state.userSlice.settings)
+  const { soundVolume, wordVolume } = useAppSelector((state) => state.settingsSlice)
   const { words, isLoading } = useAppSelector((state) => state.levelSlice)
   const { setLevel, setActiveWords } = levelSlice.actions
   const dispatch = useAppDispatch()
@@ -51,7 +51,7 @@ export const AudioChallenge = () => {
   const audioSuccess = useMemo(() => createSound(SuccessSound, soundVolume), [soundVolume])
   const audioFail = useMemo(() => createSound(FailSound, soundVolume), [soundVolume])
   const audioWord = useMemo(
-    () => createSound(`https://rs-lang-back-diffickmenlogo.herokuapp.com/${currentWord.audio}`, wordVolume),
+    () => createSound(`https://diplomabackend-production-952d.up.railway.app/${currentWord.audio}`, wordVolume),
     [wordVolume, currentWord],
   )
 
@@ -138,7 +138,7 @@ export const AudioChallenge = () => {
       }, 200)
     }
     return () => {
-      clearTimeout()
+      // clearTimeout()
     }
   }, [currentWord, audioWord, block, endGame])
 
@@ -228,7 +228,7 @@ export const AudioChallenge = () => {
           <LifesInGame lifes={lifes} />
           <Box className='game-audio__sound-container'>
             {block ? (
-              <img src={`https://rs-lang-back-diffickmenlogo.herokuapp.com/${currentWord.image}`} />
+              <img src={`https://diplomabackend-production-952d.up.railway.app/${currentWord.image}`} />
             ) : (
               <KeyboardVoiceIcon className='game-audio__btn-repeat' onClick={repeatSound} />
             )}
@@ -238,7 +238,7 @@ export const AudioChallenge = () => {
             {fourWords.map((wordVariant, index) => {
               return (
                 <button
-                  key={wordVariant._id + wordVariant.word}
+                  key={wordVariant.id + wordVariant.word}
                   ref={(element: HTMLButtonElement) => setFourRef(element, index)}
                   onClick={(btn) => answer(btn.currentTarget.value)}
                   value={wordVariant.word}

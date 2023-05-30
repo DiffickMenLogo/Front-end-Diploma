@@ -13,7 +13,8 @@ export default function Main() {
         <div className='wrapper'>
           <div className='main__container'>
             <div className='main__text'>
-              <h2>RS Lang — это эффективный сервис для увлекательной практики языков</h2>
+              <h2 className='main__text_header'>BSTU Lang </h2>
+              <p className='main__text_text'> — это эффективный сервис для увлекательной практики языков</p>
               <h4 className='main__text-subtitile'>Преимущества</h4>
               <div className='main-benefits__container'>
                 <div className='results container'>
@@ -22,7 +23,7 @@ export default function Main() {
                   </div>
                   <div>
                     <h5>Результаты</h5>
-                    <p>Статитика по дням</p>
+                    <p className='main__text_sub'>Статитика по дням</p>
                   </div>
                 </div>
                 <div className='unit container'>
@@ -31,7 +32,7 @@ export default function Main() {
                   </div>
                   <div>
                     <h5>Разделов</h5>
-                    <p>Возрастающая сложность</p>
+                    <p className='main__text_sub'>Возрастающая сложность</p>
                   </div>
                 </div>
                 <div className='game container'>
@@ -40,7 +41,7 @@ export default function Main() {
                   </div>
                   <div>
                     <h5>2 игры</h5>
-                    <p>Интересно и полезно</p>
+                    <p className='main__text_sub'>Интересно и полезно</p>
                   </div>
                 </div>
                 <div className='dictionary container'>
@@ -49,7 +50,7 @@ export default function Main() {
                   </div>
                   <div>
                     <h5>Словарь</h5>
-                    <p>на основе ваших достижений</p>
+                    <p className='main__text_sub'>на основе ваших достижений</p>
                   </div>
                 </div>
               </div>

@@ -1,23 +1,22 @@
-.statistics{
-    max-width: 1600px;
-    margin: 0 auto;
+.statistics {
+  max-width: 1600px;
+  margin: 0 auto;
 
-    h2{
-        font-size: 3.5em;
-        margin: 1em auto;
-        font-family: Arial, Helvetica, sans-serif;
-        letter-spacing: 0.06em;
-        font-weight: 700;
-        color: #360570;
-    }
-    
+  h2 {
+    font-size: 3.5em;
+    margin: 1em auto;
+    font-family: 'Comic Neue', cursive;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+    color: #25448b;
+  }
 }
 
-.statistics__change{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 3em;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1em;
+.statistics__change {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3em;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1em;
 }

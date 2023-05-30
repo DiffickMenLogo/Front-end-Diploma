@@ -1,13 +1,15 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import '../../style/GameResult.scss'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { IWord } from '../../models/IWord'
 import { Howler } from 'howler'
-import { Table, TableCell, TableHead, TableRow, TableBody, Box, TableContainer, Paper, Button } from '@mui/material'
+import { Table, TableCell, TableHead, TableRow, TableBody, Box, TableContainer, Paper, Button, CircularProgress } from '@mui/material'
 import { GameResultRow } from './GameResultRow'
-import { Link } from 'react-router-dom'
-import { IFullUser } from '../../models/IUser'
+import { Link, useNavigate } from 'react-router-dom'
 import { userSlice } from '../../store/reducers/UserSlice'
+import { statisticsSlice } from '../../store/reducers/StatisticsSlice'
+import { IUser } from '../../models/IUser'
+import { statsAPI, userWordsAPI } from '../../services/PostService'
 
 interface IGameStats {
   allSeries: number[]
@@ -19,7 +21,7 @@ interface IGameStats {
 }
 
 interface ISettings {
-  user: IFullUser
+  user: IUser
   gameName: string
   correctAnswers: IWord[]
   failAnswers: IWord[]
@@ -31,51 +33,88 @@ function getMaxOfArray(numArray: number[]) {
 }
 
 export const GameResult = ({ allSeries, correctAnswers, failAnswers, lifes, gameName, score }: IGameStats) => {
-  const user = useAppSelector((state) => state.userSlice) as IFullUser
-  const dispatch = useAppDispatch()
-  const setStatistics = userSlice.actions.setStatistics
+  const user = useAppSelector((state) => state.userSlice)
 
-  const postStats = useCallback(async (settings: ISettings) => {
-    try {
-      const config = {
-        method: 'POST',
-        withCredentials: true,
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${settings.user.token}`,
-        },
-        body: JSON.stringify({
-          userName: settings.user.userName,
-          gameName: settings.gameName,
-          correctArr: settings.correctAnswers,
-          failArr: settings.failAnswers,
-          seriesArr: settings.allSeries,
-        }),
-      }
-      const response = await fetch('https://rs-lang-back-diffickmenlogo.herokuapp.com/statistics', config)
-      const data = await response.json()
-      dispatch(setStatistics(data))
-      return console.log(data)
-    } catch (error) {
-      console.log(error)
-    }
-  }, [])
+  const { data: userWords, isLoading } = userWordsAPI.useGetUserWordsQuery(user.id)
+  const [changeUserWord] = userWordsAPI.usePutWordMutation()
+  const [addNewUserWord] = userWordsAPI.useAddWordMutation()
+  const [postStats] = statsAPI.usePostStatsMutation()
+
+  const [sendingsWords, setSendingsWords] = useState(true)
 
   const sendUserStats = useCallback(async () => {
-    if (!user.token) {
-      return alert('Статистика не была обновлена, авторизуйтесь')
+    if (correctAnswers.length && failAnswers.length) {
+      return postStats({
+        userId: user.id,
+        gameName,
+        longestSeries: Math.max(...allSeries),
+        totalWords: correctAnswers.length + failAnswers.length,
+        correctPercent: Math.floor((correctAnswers.length / (correctAnswers.length + failAnswers.length)) * 100),
+        date: new Date().toISOString(),
+      })
+        .then(() => {
+          alert('Статистика обновлена')
+        })
+        .catch(() => {
+          alert('Ошибка обновления статистики. Возможно вы не авторизированны')
+        })
     }
-    if (!correctAnswers.length && !failAnswers.length) return
-    await postStats({ user, gameName, correctAnswers, failAnswers, allSeries })
-  }, [])
+  }, [correctAnswers, failAnswers, postStats, user.id, gameName, allSeries])
+
+  const addWords = useCallback(async () => {
+    try {
+      correctAnswers.forEach(async (word) => {
+        if (userWords !== undefined) {
+          const matchedUserWord = userWords.find((userWord) => userWord.id === word.id)
+          const realWord = {
+            ...word,
+            userId: user.id,
+          }
+          if (matchedUserWord) {
+            realWord.correct += 1
+            await changeUserWord(realWord)
+          } else {
+            realWord.correct = 1
+            await addNewUserWord(realWord)
+          }
+        }
+      })
+      failAnswers.forEach(async (word) => {
+        if (userWords !== undefined) {
+          const matchedUserWord = userWords.find((userWord) => userWord.id === word.id)
+          const realWord = {
+            ...word,
+            userId: user.id,
+          }
+          if (matchedUserWord) {
+            realWord.fail += 1
+            await changeUserWord(realWord)
+          } else {
+            realWord.fail = 1
+            await addNewUserWord(realWord)
+          }
+        }
+      })
+    } finally {
+      setSendingsWords(false)
+    }
+  }, [correctAnswers, failAnswers, changeUserWord, addNewUserWord, userWords])
 
   useEffect(() => {
     Howler.stop()
     sendUserStats()
   }, [correctAnswers.length, failAnswers.length, lifes, sendUserStats])
 
-  return (
+  useEffect(() => {
+    console.log(userWords, 'user')
+    if (userWords) {
+      addWords()
+    }
+  }, [userWords])
+
+  return isLoading || sendingsWords ? (
+    <CircularProgress />
+  ) : (
     <div className='game-result__container'>
       <h1 className='game-result__title'>Результаты:</h1>
       {score ? (
